@@ -1,16 +1,11 @@
 package com.example.loanapprover;
 
-import com.example.loanapprover.pojo.PredictionRequest;
-import com.example.loanapprover.pojo.PredictionResponse;
+import com.example.loanapprover.pojo.*;
 import com.example.loanapprover.service.impl.LoanCaseServices;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import com.example.loanapprover.pojo.UserDetails;
+import org.springframework.web.bind.annotation.*;
 import com.example.loanapprover.service.impl.UserAccessServices;
 
 @SpringBootApplication
@@ -38,4 +33,13 @@ public class LoanapproverApplication {
         return new LoanCaseServices().predictLoanCase(params);
     }
 
+    @PostMapping("/saveCase")
+    public Integer saveLoanCase(@RequestBody PredictionCase predictionCase) throws  Exception{
+        return new LoanCaseServices().postLoanCase(predictionCase);
+    }
+
+    @PostMapping("/registerUser")
+    public Integer registerUser(@RequestBody UserRegister userRegister) throws Exception{
+        return new UserAccessServices().userRegister(userRegister);
+    }
 }

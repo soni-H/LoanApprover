@@ -22,7 +22,7 @@
         <property name="show_sql">true</property>
 
         <mapping class="com.example.loanapprover.beans.UserDetails"/><!--beanswewillbeusingfortheproject-->
-
+        <mapping class="com.example.loanapprover.beans.LoanCases"/>
 
     </session-factory>
 

@@ -1,7 +1,9 @@
 package com.example.loanapprover.service;
 
+import com.example.loanapprover.pojo.UserRegister;
+
 public interface UserAccess {
 
     public boolean userLogin(String username,String password);
-    public boolean userRegister(String username,String password,String emailID,String fullName);
+    public int userRegister(UserRegister user);
 }

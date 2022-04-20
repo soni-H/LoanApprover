@@ -1,9 +1,14 @@
 package com.example.loanapprover.service.impl;
 
+import com.example.loanapprover.beans.LoanCases;
 import com.example.loanapprover.pojo.PredictionCase;
+import com.example.loanapprover.pojo.PredictionRequest;
 import com.example.loanapprover.pojo.PredictionResponse;
 import com.example.loanapprover.service.LoanCase;
 
+import com.example.loanapprover.utils.HibernateSessionUtil;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.json.JSONObject;
 import org.springframework.http.*;
 import org.springframework.util.MultiValueMap;
@@ -40,21 +45,8 @@ try {
             .encode()
             .toUriString();
 
-    Map<String, String> params = new HashMap<>();
-    params.put("loan_amnt", predictionRequest.getFirst("loan_amnt").toString());
-    params.put("term", predictionRequest.getFirst("term").toString());
-    params.put("emp_length", predictionRequest.getFirst("emp_length").toString());
-    params.put("home_ownership", predictionRequest.getFirst("home_ownership").toString());
-    params.put("annual_inc", predictionRequest.getFirst("annual_inc").toString());
-    params.put("addr_state", predictionRequest.getFirst("addr_state").toString());
-    params.put("dti", predictionRequest.getFirst("dti").toString());
-    params.put("purpose", predictionRequest.getFirst("purpose").toString());
-    params.put("delinq_2yrs", predictionRequest.getFirst("delinq_2yrs").toString());
-    params.put("revol_util", predictionRequest.getFirst("revol_util").toString());
-    params.put("total_acc", predictionRequest.getFirst("total_acc").toString());
-    params.put("longest_credit_length", predictionRequest.getFirst("longest_credit_length").toString());
-    params.put("verification_status", predictionRequest.getFirst("verification_status").toString());
 
+Map<String,String> params=mapRequestToUrl(predictionRequest);
 
     HttpEntity<String> response = restTemplate.exchange(
             urlTemplate,
@@ -77,7 +69,61 @@ try {
 
     @Override
     public Integer postLoanCase(PredictionCase predictionCase) {
-        return null;
+        int caseId=-1;
+        LoanCases loanCase=mapRequestToLoanCase(predictionCase);
+        try(Session session= HibernateSessionUtil.getSession()){
+            Transaction transaction=session.beginTransaction();
+            session.persist(loanCase);
+            transaction.commit();
+            caseId=loanCase.getCaseID();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return caseId;
+    }
+
+
+    public LoanCases mapRequestToLoanCase(PredictionCase predictionCase){
+        LoanCases loanCase=new LoanCases();
+
+        loanCase.setLoanAmount(predictionCase.getLoan_amnt());
+        loanCase.setTerm(predictionCase.getTerm());
+        loanCase.setAddressState(predictionCase.getAddr_state());
+        loanCase.setAnnualIncome(predictionCase.getAnnual_inc());
+        loanCase.setDebtToIncomeRatio(predictionCase.getDti());
+        loanCase.setEmpLength(predictionCase.getEmp_length());
+        loanCase.setHomeOwnership(predictionCase.getHome_ownership());
+        loanCase.setLongestCreditLength(predictionCase.getLongest_credit_length());
+        loanCase.setMisdemeanourYears(predictionCase.getDelinq_2yrs());
+        loanCase.setTotalAccounts(predictionCase.getTotal_acc());
+        loanCase.setRevolvingCredit(predictionCase.getRevol_util());
+        loanCase.setPurpose(predictionCase.getPurpose());
+        loanCase.setVerificationStatus(predictionCase.getVerification_status());
+
+        loanCase.setPrediction(predictionCase.getPrediction());
+        loanCase.setConfidence(predictionCase.getConfidence());
+        loanCase.setInterestRate(predictionCase.getInterest_rate());
+
+        return loanCase;
+
+    }
+    public Map<String, String> mapRequestToUrl(MultiValueMap predictionRequest){
+        Map<String, String> params = new HashMap<>();
+        params.put("loan_amnt", predictionRequest.getFirst("loan_amnt").toString());
+        params.put("term", predictionRequest.getFirst("term").toString());
+        params.put("emp_length", predictionRequest.getFirst("emp_length").toString());
+        params.put("home_ownership", predictionRequest.getFirst("home_ownership").toString());
+        params.put("annual_inc", predictionRequest.getFirst("annual_inc").toString());
+        params.put("addr_state", predictionRequest.getFirst("addr_state").toString());
+        params.put("dti", predictionRequest.getFirst("dti").toString());
+        params.put("purpose", predictionRequest.getFirst("purpose").toString());
+        params.put("delinq_2yrs", predictionRequest.getFirst("delinq_2yrs").toString());
+        params.put("revol_util", predictionRequest.getFirst("revol_util").toString());
+        params.put("total_acc", predictionRequest.getFirst("total_acc").toString());
+        params.put("longest_credit_length", predictionRequest.getFirst("longest_credit_length").toString());
+        params.put("verification_status", predictionRequest.getFirst("verification_status").toString());
+
+        return params;
     }
 
 

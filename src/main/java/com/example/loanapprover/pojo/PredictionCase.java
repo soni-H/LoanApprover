@@ -4,10 +4,56 @@ public class PredictionCase {
 
     double loan_amnt;
     String term;
-    String emp_length;
+    int emp_length;
     String home_ownership;
-    double annual_inc;
+    int annual_inc;
+
+    public double getDti() {
+        return dti;
+    }
+
+    public void setDti(double dti) {
+        this.dti = dti;
+    }
+
     String purpose;
+    double revol_util;
+double dti;
+    public double getRevol_util() {
+        return revol_util;
+    }
+
+    public void setRevol_util(double revol_util) {
+        this.revol_util = revol_util;
+    }
+
+    public int getTotal_acc() {
+        return total_acc;
+    }
+
+    public void setTotal_acc(int total_acc) {
+        this.total_acc = total_acc;
+    }
+
+    public int getLongest_credit_length() {
+        return longest_credit_length;
+    }
+
+    public void setLongest_credit_length(int longest_credit_length) {
+        this.longest_credit_length = longest_credit_length;
+    }
+
+    public String getVerification_status() {
+        return verification_status;
+    }
+
+    public void setVerification_status(String verification_status) {
+        this.verification_status = verification_status;
+    }
+
+    int total_acc;
+    int longest_credit_length;
+    String verification_status;
 
     public double getLoan_amnt() {
         return loan_amnt;
@@ -25,11 +71,11 @@ public class PredictionCase {
         this.term = term;
     }
 
-    public String getEmp_length() {
+    public int getEmp_length() {
         return emp_length;
     }
 
-    public void setEmp_length(String emp_length) {
+    public void setEmp_length(int emp_length) {
         this.emp_length = emp_length;
     }
 
@@ -41,11 +87,11 @@ public class PredictionCase {
         this.home_ownership = home_ownership;
     }
 
-    public double getAnnual_inc() {
+    public int getAnnual_inc() {
         return annual_inc;
     }
 
-    public void setAnnual_inc(double annual_inc) {
+    public void setAnnual_inc(int annual_inc) {
         this.annual_inc = annual_inc;
     }
 
