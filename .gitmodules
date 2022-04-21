@@ -1,0 +1,3 @@
+[submodule "static/loan-approval-system"]
+	path = static/loan-approval-system
+	url = https://github.com/rahulsid55/LoanApprover.git
