@@ -1,20 +1,16 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+
 function List({ users, handleEdit }) {
     const formatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
         minimumFractionDigits: null
     });
-    const navigate = useNavigate()
+   
     
-    const handleLogout = () => {
-      console.log("Logout Clicked");
-      navigate('/')
-    }
+    
     return (
         <div className='contain-table'>
-            <button variant='contained' color='warning' size='large' className="button muted-button" onClick={handleLogout} sx={{ mt: 8 }}>Logout</button>
 
             <table className='striped-table'>
                 <thead>

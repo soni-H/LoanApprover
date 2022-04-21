@@ -8,7 +8,7 @@ function App() {
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<Login />} />
-     <Route path="/dashboard" element={<Dashboard auth={false}/>} />
+     <Route path="/dashboard" element={<Dashboard/>} />
      <Route path="*" element={<h1>Error 404 Page not found !!</h1>} />
     </Routes>
   </BrowserRouter>
