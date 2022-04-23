@@ -6,9 +6,9 @@ function List({ users, handleEdit }) {
         currency: 'USD',
         minimumFractionDigits: null
     });
-   
-    
-    
+
+
+
     return (
         <div className='contain-table'>
 
@@ -21,7 +21,18 @@ function List({ users, handleEdit }) {
                         <th>Emails</th>
                         <th>Salary</th>
                         <th>Date</th>
-                        <th>Loan Status</th>
+                        <th>Loan amount</th>
+                        <th>Term</th>
+                        <th>Employee Length</th>
+                        <th>Purpose</th>
+                        <th>City</th>
+                        <th>DTI</th>
+                        <th>Delinq_2yrs</th>
+                        <th>Revol_util</th>
+                        <th>Total accounts</th>
+
+                        <th>Age of oldest active account</th>
+                        <th>loan_status</th>
                         <th colSpan={2} className="text-center">
                             Actions
                         </th>
@@ -37,7 +48,18 @@ function List({ users, handleEdit }) {
                                 <td>{user.email}</td>
                                 <td>{formatter.format(user.salary)}</td>
                                 <td>{user.date} </td>
-                                <td>{user.loan_status}</td>
+
+                                <td>{user.loan_amnt} </td>
+                                <td>{user.term} </td>
+                                <td>{user.empl_length} </td>
+                                <td>{user.purpose} </td>
+                                <td>{user.city} </td>
+                                <td>{user.dti}</td>
+                                <td>{user.delinq}</td>
+                                <td>{user.revil}</td>
+                                <td>{user.totalacc}</td>
+                                <td>{user.creditlength}</td>
+                                <td>{user.loan_status} </td>
                                 <td className="text-right">
                                     <button
                                         onClick={() => handleEdit(user.id)}
