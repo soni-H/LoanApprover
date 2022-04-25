@@ -23,7 +23,7 @@ public class LoanCaseServices implements LoanCase {
     public PredictionResponse predictLoanCase(MultiValueMap predictionRequest) {
         PredictionResponse res=null;
 try {
-    String url = "http://127.0.0.1:5000/";
+    String url = "http://webla:5000/";
     RestTemplate restTemplate = new RestTemplate();
     HttpHeaders headers = new HttpHeaders();
     headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
