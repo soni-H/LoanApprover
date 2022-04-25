@@ -1,13 +1,12 @@
 ---
 -
-  hosts: localhost
+  hosts: "127.0.0.1"
   name: "Deploy a jar file"
   remote_user: harshita
   tasks:
     -
-      docker_compose:
-        project_src: .
-        build: yes
-        state: present
-        stopped: yes
-      name: "Create and start services"
+      command: "docker-compose -f docker-compose.yml pull"
+      name: "Pull docker images"
+    -
+      command: "docker-compose -f docker-compose.yml up -d"
+      name: "Start docker compose"
