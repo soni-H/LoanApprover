@@ -1,0 +1,11 @@
+create table user_details( 
+userID smallint NOT NULL AUTO_INCREMENT,
+
+fullName varchar(50) not null, 
+
+emailID varchar(70) not null, 
+
+password varchar(30) not null,
+
+constraint pk_user PRIMARY KEY (userID)
+); 
