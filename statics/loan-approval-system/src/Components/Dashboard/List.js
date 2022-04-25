@@ -24,6 +24,7 @@ function List({ users, handleEdit }) {
                         <th>Loan amount</th>
                         <th>Term</th>
                         <th>Employee Length</th>
+                        <th>Housing Status</th>
                         <th>Purpose</th>
                         <th>City</th>
                         <th>DTI</th>
@@ -32,7 +33,6 @@ function List({ users, handleEdit }) {
                         <th>Total accounts</th>
 
                         <th>Age of oldest active account</th>
-                        <th>loan_status</th>
                         <th colSpan={2} className="text-center">
                             Actions
                         </th>
@@ -52,6 +52,7 @@ function List({ users, handleEdit }) {
                                 <td>{user.loan_amnt} </td>
                                 <td>{user.term} </td>
                                 <td>{user.empl_length} </td>
+                                <td>{user.home_ownersh}</td>
                                 <td>{user.purpose} </td>
                                 <td>{user.city} </td>
                                 <td>{user.dti}</td>
@@ -59,7 +60,6 @@ function List({ users, handleEdit }) {
                                 <td>{user.revil}</td>
                                 <td>{user.totalacc}</td>
                                 <td>{user.creditlength}</td>
-                                <td>{user.loan_status} </td>
                                 <td className="text-right">
                                     <button
                                         onClick={() => handleEdit(user.id)}

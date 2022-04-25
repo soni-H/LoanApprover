@@ -17,7 +17,6 @@ function Add({ users, setUsers, setIsAdding }) {
     const [revol, setrevol] = useState('');
     const [totalacc, settotalacc] = useState('');
     const [prevcreditlength, setprevcreditlength] = useState('');
-    const [loan_status, setloan] = useState('');
     const textInput = useRef(null);
     useEffect(() => {
         textInput.current.focus();
@@ -44,6 +43,7 @@ function Add({ users, setUsers, setIsAdding }) {
             loan_amnt, 
             term, 
             empl_length, 
+            home_ownersh,
             purpose, 
             city, 
             dti, 
@@ -51,7 +51,6 @@ function Add({ users, setUsers, setIsAdding }) {
             revol, 
             totalacc, 
             prevcreditlength,
-            loan_status
         }
         users.push(newEmployee);
         setUsers(users);
@@ -133,6 +132,14 @@ function Add({ users, setUsers, setIsAdding }) {
                     name="empl_length"
                     value={empl_length}
                     onChange={e => setemp_length(e.target.value)}
+                />
+                <label htmlFor="home_ownersh">Housing status</label>
+                <input
+                    id="home_ownersh"
+                    type="home_ownersh"
+                    name="home_ownersh"
+                    value={home_ownersh}
+                    onChange={e => sethome_ownersh(e.target.value)}
                 />
                 <label htmlFor="purpose">Purpose</label>
                 <input
