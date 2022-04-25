@@ -1,0 +1,13 @@
+---
+-
+  hosts: localhost
+  name: "Deploy a jar file"
+  remote_user: harshita
+  tasks:
+    -
+      docker_compose:
+        project_src: .
+        build: yes
+        state: present
+        stopped: yes
+      name: "Create and start services"
