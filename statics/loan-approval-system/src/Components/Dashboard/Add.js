@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react'
 import Swal from 'sweetalert2';
+import axios from 'axios'
 function Add({ users, setUsers, setIsAdding }) {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -21,7 +22,7 @@ function Add({ users, setUsers, setIsAdding }) {
     useEffect(() => {
         textInput.current.focus();
     }, [])
-    const handleAdd = e => {
+    const handleAdd = async(e) => {
         e.preventDefault();
         if (!firstName || !lastName || !email || !salary || !date) {
             return Swal.fire({
@@ -52,7 +53,9 @@ function Add({ users, setUsers, setIsAdding }) {
             totalacc, 
             prevcreditlength,
         }
-        users.push(newEmployee);
+        //users.push(newEmployee);
+        await axios.post("http://localhost:8081/saveCase",newEmployee);
+        console.log(newEmployee);
         setUsers(users);
         setIsAdding(false);
 
@@ -63,6 +66,18 @@ function Add({ users, setUsers, setIsAdding }) {
             showConfirmButton: false,
             timer: 1500
         });
+    }
+    const handlePredict=async() =>{
+        const result = await axios.get("http://localhost:8081/predictLoan");
+        Swal.fire({
+            icon: "success",
+            title:"Results",
+            text: `${result}`, 
+            showConfirmButton: false,
+            timer:1500
+
+        })
+
     }
     return (
         <div className="small-container">
@@ -205,6 +220,13 @@ function Add({ users, setUsers, setIsAdding }) {
                         type="button"
                         value="Cancel"
                         onClick={() => setIsAdding(false)}
+                    />
+                    <input
+                        style={{ marginLeft: '12px' }}
+                        className="muted-button"
+                        type="button"
+                        value="Predict"
+                        onClick={handlePredict}
                     />
                 </div>
                 
