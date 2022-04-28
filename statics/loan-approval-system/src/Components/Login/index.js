@@ -8,18 +8,7 @@ function Login() {
   const navigate = useNavigate();
   const [errorMessages, setErrorMessages] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
-  //Routing
-  // User Login info
-  const database = [
-    {
-      username: "user1",
-      password: "pass1"
-    },
-    {
-      username: "user2",
-      password: "pass2"
-    }
-  ];
+
 
   const errors = {
     uname: "invalid username",
@@ -32,17 +21,24 @@ function Login() {
     
     var { uname, pass } = document.forms[0];
 
-    // Find user login info
-    const userData = await axios.get("http://app:8081/predictLoan",{"username":uname,"password":pass});
+    const userData = await axios.get("http://localhost:8081/login",{
+      params : {
+      "username": uname.value,
+        "password":pass.value
+    }
+
+  });
 
     // Compare user info
-    if (userData) {
+    console.log(userData)
+    if (userData['data']===true) {
       setIsSubmitted(true);
       console.log(uname,pass);
       navigate('/Dashboard');
     } else {
       // Username not found
-      setErrorMessages({ name: "uname", message: errors.uname });
+      setErrorMessages({ name: "uname",
+        message: errors.uname });
     }
   };
 

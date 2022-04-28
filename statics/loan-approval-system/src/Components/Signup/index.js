@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import './index.css'
 import { Navigate, NavLink, useNavigate } from 'react-router-dom';
+import Swal from "sweetalert2";
  function Form() {
     const navigate = useNavigate();
     const [name, setName] = useState('');
@@ -27,15 +28,39 @@ import { Navigate, NavLink, useNavigate } from 'react-router-dom';
     };
 
     // Handling the form submission
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (name === '' || email === '' || password === '') {
+        if (name != '' && email != '' && password != '') {
             setError(true);
-            axios.post("http://app:8081/registerUser", { FullName: name, emailID: email, password: password });
+            const body = {
+                'fullName': name, 'emailID': email, 'password': password
+            }
+            const result = await axios.post("http://localhost:8081/registerUser", body);
+            console.log(result);
+            if (result['status'] === 200) {
+                Swal.fire({
+                    icon: "success",
+                    title: "Results",
+                    text: `User ID is ` + result['data'],
+                    showConfirmButton: true,
+                    //timer: 1500
+
+                })
+            }
 
         } else {
+            console.log('Inside else');
             setSubmitted(true);
             setError(false);
+
+            Swal.fire({
+                icon: "error",
+                title: "Results",
+                text: 'Please enter all the fields.',
+                showConfirmButton: true,
+                //timer: 1500
+
+            })
         }
     };
     const handleLogin = () => {

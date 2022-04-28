@@ -14,7 +14,6 @@ public class UserAccessServices implements UserAccess {
     public boolean userLogin(String username, String password) {
         boolean response=false;
         try(Session session= HibernateSessionUtil.getSession()){
-            System.out.println(username+":"+password);
             List<Object[]> queryResponses=session.createQuery("select emailID from UserDetails u where u.emailID=:emailId and u.password=:password")
                     .setParameter("password",password).setParameter("emailId",username).getResultList();
             if(queryResponses.size()==1)

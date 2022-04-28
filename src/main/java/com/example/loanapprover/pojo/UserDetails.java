@@ -6,6 +6,14 @@ public class UserDetails {
         return username;
     }
 
+    @Override
+    public String toString() {
+        return "UserDetails{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }

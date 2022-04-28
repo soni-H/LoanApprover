@@ -37,8 +37,8 @@ public class LoanapproverApplication {
 
     //@CrossOrigin(origins = "http://localhost:8081")
     @GetMapping("/login")
-    public boolean userLogin(@RequestBody UserDetails userDetails) throws  Exception{
-        boolean response=new UserAccessServices().userLogin(userDetails.getUsername(),userDetails.getPassword());
+    public boolean userLogin(@RequestParam MultiValueMap<String,String> params) throws  Exception{
+        boolean response=new UserAccessServices().userLogin(params.getFirst("username"),params.getFirst("password"));
         return response;
 
     }
