@@ -2,18 +2,22 @@
   "name": "loan-approval-system",
   "version": "0.1.0",
   "private": true,
+  "main":"src/index.js",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.1.1",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^0.27.1",
+    "human-signals": "^3.0.1",
+    "jest-worker": "^28.0.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
     "react-select": "^5.3.1",
     "sweetalert2": "^11.4.8",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "workbox-webpack-plugin": "^6.5.3"
   },
   "scripts": {
     "start": "react-scripts start",
