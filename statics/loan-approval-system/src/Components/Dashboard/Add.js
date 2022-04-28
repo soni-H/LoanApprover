@@ -2,11 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import Swal from 'sweetalert2';
 import axios from 'axios'
 function Add({ users, setUsers, setIsAdding }) {
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
     const [salary, setSalary] = useState('');
-    const [date, setDate] = useState('');
     const [loan_amnt, setloan_amnt] = useState('');
     const [term, setterm] = useState('');
     const [empl_length, setemp_length] = useState('');
@@ -22,25 +18,12 @@ function Add({ users, setUsers, setIsAdding }) {
     useEffect(() => {
         textInput.current.focus();
     }, [])
-    const handleAdd = async(e) => {
+    const handlePredict = async(e) => {
         e.preventDefault();
-        if (!firstName || !lastName || !email || !salary || !date) {
-            return Swal.fire({
-                icon: 'error',
-                title: 'Error!',
-                text: 'All fields are required.',
-                showConfirmButton: true
-            });
-        }
-
         const id = users.length + 1;
-        const newEmployee = {
+        const newUser = {
             id,
-            firstName,
-            lastName,
-            email,
             salary,
-            date,
             loan_amnt, 
             term, 
             empl_length, 
@@ -53,22 +36,11 @@ function Add({ users, setUsers, setIsAdding }) {
             totalacc, 
             prevcreditlength,
         }
-        //users.push(newEmployee);
-        await axios.post("http://localhost:8081/saveCase",newEmployee);
-        console.log(newEmployee);
-        setUsers(users);
-        setIsAdding(false);
 
-        Swal.fire({
-            icon: 'success',
-            title: 'Added!',
-            text: `${firstName} ${lastName}'s data has been Added.`,
-            showConfirmButton: false,
-            timer: 1500
-        });
-    }
-    const handlePredict=async() =>{
-        const result = await axios.get("http://localhost:8081/predictLoan");
+        const result=await axios.get("http://app:8081/predictLoan",newUser);
+        console.log(newUser);
+        
+
         Swal.fire({
             icon: "success",
             title:"Results",
@@ -77,52 +49,49 @@ function Add({ users, setUsers, setIsAdding }) {
             timer:1500
 
         })
+    }
+    const handleSave=async(e) => {
+        const id = users.length + 1;
+        const newUser = {
+            id,
+            salary,
+            loan_amnt, 
+            term, 
+            empl_length, 
+            home_ownersh,
+            purpose, 
+            city, 
+            dti, 
+            delinq, 
+            revol, 
+            totalacc, 
+            prevcreditlength,
+        }
+        await axios.post("http://app:8081/saveCase",newUser);
+        setUsers(users);
+        setIsAdding(false);
+        Swal.fire({
+            icon: "success",
+            title:"Results",
+            text: `ADDED`, 
+            showConfirmButton: false,
+            timer:1500
+
+        })
 
     }
     return (
         <div className="small-container">
-            <form onSubmit={handleAdd}>
-                <h1>Add User</h1>
-                <label htmlFor="firstName">First Name</label>
-                <input
-                    id="firstName"
-                    type="text"
-                    ref={textInput}
-                    name="firstName"
-                    value={firstName}
-                    onChange={e => setFirstName(e.target.value)}
-                />
-                <label htmlFor="lastName">Last Name</label>
-                <input
-                    id="lastName"
-                    type="text"
-                    name="lastName"
-                    value={lastName}
-                    onChange={e => setLastName(e.target.value)}
-                />
-                <label htmlFor="email">Email</label>
-                <input
-                    id="email"
-                    type="email"
-                    name="email"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                />
+            <form onSubmit={handlePredict}>
+                <h1>Predict Case</h1>
                 <label htmlFor="salary">Salary ($)</label>
                 <input
                     id="salary"
                     type="number"
                     name="salary"
+                    ref={textInput}
                     value={salary}
                     onChange={e => setSalary(e.target.value)}
-                />
-                <label htmlFor="date">Date</label>
-                <input
-                    id="date"
-                    type="date"
-                    name="date"
-                    value={date}
-                    onChange={e => setDate(e.target.value)}
                 />
                 <label htmlFor="loan_amnt">Loan amount</label>
                 <input
@@ -213,7 +182,14 @@ function Add({ users, setUsers, setIsAdding }) {
                     onChange={e => setprevcreditlength(e.target.value)}
                 />
                 <div style={{ marginTop: '30px' }}>
-                    <input type="submit" value="Add" />
+                    <input type="submit" value="Predict" />
+                    <input
+                        style={{ marginLeft: '12px' }}
+                        className="muted-button"
+                        type="button"
+                        value="Save"
+                        onClick={handleSave}
+                    />
                     <input
                         style={{ marginLeft: '12px' }}
                         className="muted-button"
@@ -221,13 +197,7 @@ function Add({ users, setUsers, setIsAdding }) {
                         value="Cancel"
                         onClick={() => setIsAdding(false)}
                     />
-                    <input
-                        style={{ marginLeft: '12px' }}
-                        className="muted-button"
-                        type="button"
-                        value="Predict"
-                        onClick={handlePredict}
-                    />
+                    
                 </div>
                 
             </form>
