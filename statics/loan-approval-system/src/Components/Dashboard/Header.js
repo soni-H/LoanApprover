@@ -11,7 +11,7 @@ function Header({ setIsAdding }) {
     <header>
         <h1>Users Dashboard</h1>
         <div style={{ marginTop: '30px', marginBottom: '18px' }}>
-        <button onClick={() => setIsAdding(true)} className='round-button'>Add User</button>
+        <button onClick={() => setIsAdding(true)} className='round-button'>Predict Case</button>
         <div style={{float:'right'}}>
         <button variant='contained' color='warning' size='large' className="round-button"  onClick={handleLogout} sx={{ mt: 8 }}>Logout</button>
         </div>
