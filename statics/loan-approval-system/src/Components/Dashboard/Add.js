@@ -36,8 +36,11 @@ function Add({ users, setUsers, setIsAdding }) {
             'longestprevcreditLength':prevcreditlength,
             'verification_status':"verified"
         }
-        
-        const result=await axios.get("http://app:8081/predictLoan",newUser);
+        const result=await axios.get("http://localhost:8081/predictLoan",{
+            params: {
+                foo: newUser
+            }
+        });
         console.log(newUser);
         
 
@@ -67,7 +70,7 @@ function Add({ users, setUsers, setIsAdding }) {
             totalacc, 
             prevcreditlength,
         }
-        await axios.post("http://app:8081/saveCase",newUser);
+        await axios.post("http://localhost:8081/saveCase",newUser);
         setUsers(users);
         setIsAdding(false);
         Swal.fire({
