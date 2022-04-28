@@ -107,6 +107,28 @@ double dti;
         return addr_state;
     }
 
+    @Override
+    public String toString() {
+        return "PredictionCase{" +
+                "loan_amnt=" + loan_amnt +
+                ", term='" + term + '\'' +
+                ", emp_length=" + emp_length +
+                ", home_ownership='" + home_ownership + '\'' +
+                ", annual_inc=" + annual_inc +
+                ", purpose='" + purpose + '\'' +
+                ", revol_util=" + revol_util +
+                ", dti=" + dti +
+                ", total_acc=" + total_acc +
+                ", longest_credit_length=" + longest_credit_length +
+                ", verification_status='" + verification_status + '\'' +
+                ", addr_state='" + addr_state + '\'' +
+                ", delinq_2yrs=" + delinq_2yrs +
+                ", prediction='" + prediction + '\'' +
+                ", confidence=" + confidence +
+                ", interest_rate=" + interest_rate +
+                '}';
+    }
+
     public void setAddr_state(String addr_state) {
         this.addr_state = addr_state;
     }

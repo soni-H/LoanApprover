@@ -23,7 +23,7 @@ public class LoanCaseServices implements LoanCase {
     public PredictionResponse predictLoanCase(MultiValueMap predictionRequest) {
         PredictionResponse res=null;
 try {
-    String url = "http://webla:5000/";
+    String url = "http://localhost:5000/";
     RestTemplate restTemplate = new RestTemplate();
     HttpHeaders headers = new HttpHeaders();
     headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
@@ -58,8 +58,8 @@ Map<String,String> params=mapRequestToUrl(predictionRequest);
     JSONObject jsonObject = new JSONObject(response.getBody());
     res = new PredictionResponse();
     res.setConfidence(Double.parseDouble(jsonObject.get("confidence").toString()));
-    res.setPredcition(jsonObject.get("prediction").toString());
-    if(res.getPredcition().equalsIgnoreCase("Verified"))
+    res.setPrediction(jsonObject.get("prediction").toString());
+    if(res.getPrediction().equalsIgnoreCase("Verified"))
         res.setInterest_rate(Double.parseDouble(jsonObject.get("interest_rate").toString()));
 }catch(Exception e){
     e.printStackTrace();

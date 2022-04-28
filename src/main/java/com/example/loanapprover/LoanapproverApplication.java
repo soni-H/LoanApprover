@@ -43,10 +43,9 @@ public class LoanapproverApplication {
 
     }
 
-    @CrossOrigin(origins = "http://localhost:8081")
+    //@CrossOrigin(origins = "http://localhost:8081")
     @GetMapping("/predictLoan")
     public PredictionResponse predictLoan(@RequestParam MultiValueMap<String,String> params) throws Exception{
-        System.out.println(params);
         return new LoanCaseServices().predictLoanCase(params);
     }
 

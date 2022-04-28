@@ -2,15 +2,15 @@ package com.example.loanapprover.pojo;
 
 public class PredictionResponse {
 
-    String predcition;
+    String prediction;
     double confidence;
 
-    public String getPredcition() {
-        return predcition;
+    public String getPrediction() {
+        return prediction;
     }
 
-    public void setPredcition(String predcition) {
-        this.predcition = predcition;
+    public void setPrediction(String prediction) {
+        this.prediction = prediction;
     }
 
     public double getConfidence() {
