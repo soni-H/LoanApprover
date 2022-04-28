@@ -22,21 +22,21 @@ function Add({ users, setUsers, setIsAdding }) {
         e.preventDefault();
         const id = users.length + 1;
         const newUser = {
-            id,
-            salary,
-            loan_amnt, 
-            term, 
-            empl_length, 
-            home_ownersh,
-            purpose, 
-            city, 
-            dti, 
-            delinq, 
-            revol, 
-            totalacc, 
-            prevcreditlength,
+            'annual_inc':salary,
+            'loan_amt':loan_amnt, 
+            'term':term, 
+            'emp_length':empl_length, 
+            'home_ownership':home_ownersh,
+            'purpose':purpose, 
+            'addr_state':city, 
+            'dti':dti, 
+            'delinq_2yrs':delinq, 
+            'revol_util':revol, 
+            'total_acc':totalacc, 
+            'longestprevcreditLength':prevcreditlength,
+            'verification_status':"verified"
         }
-
+        
         const result=await axios.get("http://app:8081/predictLoan",newUser);
         console.log(newUser);
         
@@ -170,7 +170,7 @@ function Add({ users, setUsers, setIsAdding }) {
                     id="totalacc"
                     type="totalacc"
                     name="totalacc"
-                    value={revol}
+                    value={totalacc}
                     onChange={e => settotalacc(e.target.value)}
                 />
                 <label htmlFor="prevcreditlength">Age of oldest active account</label>
