@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import { NavLink, useNavigate } from 'react-router-dom';
-
+import axios from 'axios'
 function Login() {
   // React States
   const navigate = useNavigate();
@@ -26,25 +26,20 @@ function Login() {
     pass: "invalid password"
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async(event) => {
     //Prevent page reload
     event.preventDefault();
-
+    
     var { uname, pass } = document.forms[0];
 
     // Find user login info
-    const userData = database.find((user) => user.username === uname.value);
+    const userData = await axios.get("http://app:8081/predictLoan",{"username":uname,"password":pass});
 
     // Compare user info
     if (userData) {
-      if (userData.password !== pass.value) {
-        // Invalid password
-        setErrorMessages({ name: "pass", message: errors.pass });
-      } else {
-        setIsSubmitted(true);
-        console.log(uname,pass);
-        navigate('/Dashboard');
-      }
+      setIsSubmitted(true);
+      console.log(uname,pass);
+      navigate('/Dashboard');
     } else {
       // Username not found
       setErrorMessages({ name: "uname", message: errors.uname });
@@ -56,7 +51,9 @@ function Login() {
     name === errorMessages.name && (
       <div className="error">{errorMessages.message}</div>
     );
-
+  const handleSignup=() =>{
+    navigate('/signup');
+  }
   // JSX code for login form
   const renderForm = (
     <div className="form">
@@ -72,8 +69,12 @@ function Login() {
           {renderErrorMessage("pass")}
         </div>
         <div className="button-container">
-          <input type="submit" />
+          <input type="submit" value="Login"/>
         </div>
+        <div className="button-container">
+        <button variant='contained' color='warning' size='small' className="round-button"  onClick={handleSignup} sx={{ mt: 8 }}>SignUp</button>
+        </div>
+
       </form>
     </div>
   );
