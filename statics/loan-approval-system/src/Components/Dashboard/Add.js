@@ -18,6 +18,7 @@ function Add({ users, setUsers, setIsAdding }) {
     useEffect(() => {
         textInput.current.focus();
     }, [])
+<<<<<<< HEAD
     const handlePredict = e => {
         e.preventDefault();
         const id = users.length + 1;
@@ -39,6 +40,32 @@ function Add({ users, setUsers, setIsAdding }) {
         console.log(newUser)
         const result=axios.get("http://app:8081/predictLoan",newUser);
         console.log(result);
+=======
+    const handlePredict = async(e) => {
+        e.preventDefault();
+        const id = users.length + 1;
+        const newUser = {
+            'annual_inc':salary,
+            'loan_amt':loan_amnt, 
+            'term':term, 
+            'emp_length':empl_length, 
+            'home_ownership':home_ownersh,
+            'purpose':purpose, 
+            'addr_state':city, 
+            'dti':dti, 
+            'delinq_2yrs':delinq, 
+            'revol_util':revol, 
+            'total_acc':totalacc, 
+            'longestprevcreditLength':prevcreditlength,
+            'verification_status':"verified"
+        }
+        const result=await axios.get("http://localhost:8081/predictLoan",{
+            params: {
+                foo: newUser
+            }
+        });
+        console.log(newUser);
+>>>>>>> 32694d2f4232ecd8276d4cabd892a6374268b758
         
 
         Swal.fire({
@@ -50,9 +77,16 @@ function Add({ users, setUsers, setIsAdding }) {
 
         })
     }
+<<<<<<< HEAD
     const handleSave=() => {
         const id = users.length + 1;
         const newUser = {
+=======
+    const handleSave=async(e) => {
+        const id = users.length + 1;
+        const newUser = {
+            id,
+>>>>>>> 32694d2f4232ecd8276d4cabd892a6374268b758
             salary,
             loan_amnt, 
             term, 
@@ -66,8 +100,12 @@ function Add({ users, setUsers, setIsAdding }) {
             totalacc, 
             prevcreditlength,
         }
+<<<<<<< HEAD
         console.log(newUser);
         axios.post("http://app:8081/saveCase",newUser);
+=======
+        await axios.post("http://localhost:8081/saveCase",newUser);
+>>>>>>> 32694d2f4232ecd8276d4cabd892a6374268b758
         setUsers(users);
         setIsAdding(false);
         Swal.fire({
