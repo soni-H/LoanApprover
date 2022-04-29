@@ -4,7 +4,6 @@ import axios from 'axios'
 import Select from 'react-select'
 import { NavLink, useNavigate } from 'react-router-dom';
 function Add({ users, setUsers, setIsAdding }) {
-    const navigate = useNavigate();
 
     const [salary, setSalary] = useState('');
     const [loan_amnt, setloan_amnt] = useState('');
@@ -202,14 +201,6 @@ function Add({ users, setUsers, setIsAdding }) {
         
 
     }
-    const handleRecord = () => {
-        setIsAdding(false);
-        navigate("/saveData")
-    }
-    const handleCase= () => {
-        setIsAdding(false);
-        navigate("/showData")
-    }
 
     return (
         <div className="small-container">
@@ -371,20 +362,7 @@ function Add({ users, setUsers, setIsAdding }) {
                         value="Cancel"
                         onClick={() => setIsAdding(false)}
                     />
-                    <input
-                        style={{ marginLeft: '12px' }}
-                        className="muted-button"
-                        type="button"
-                        value="Save Record"
-                        onClick={handleRecord}
-                    />
-                    <input
-                        style={{ marginLeft: '12px' }}
-                        className="muted-button"
-                        type="button"
-                        value="Show Case"
-                        onClick={handleCase}
-                    />
+                    
 
                 </div>
 
