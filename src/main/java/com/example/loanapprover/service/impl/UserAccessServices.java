@@ -2,6 +2,8 @@ package com.example.loanapprover.service.impl;
 
 import com.example.loanapprover.beans.UserDetails;
 import com.example.loanapprover.pojo.UserRegister;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import com.example.loanapprover.service.UserAccess;
 import com.example.loanapprover.utils.HibernateSessionUtil;
@@ -10,6 +12,9 @@ import org.hibernate.Transaction;
 import java.util.List;
 
 public class UserAccessServices implements UserAccess {
+
+    private static final Logger logger = LogManager.getLogger(UserAccessServices.class);
+
     @Override
     public boolean userLogin(String username, String password) {
         boolean response=false;
@@ -18,8 +23,10 @@ public class UserAccessServices implements UserAccess {
                     .setParameter("password",password).setParameter("emailId",username).getResultList();
             if(queryResponses.size()==1)
                 response=true;
+            logger.info("userLogin : api called successfully.");
         }catch(Exception e){
             e.printStackTrace();
+            logger.error("userLogin : error calling api");
         }
         return response;
     }
@@ -38,8 +45,10 @@ public class UserAccessServices implements UserAccess {
             session.persist(userDetails);
             transaction.commit();
             userId=userDetails.getUserID();
+            logger.info("userRegister : Successfully saved user in database.");
         }catch(Exception e){
             e.printStackTrace();
+            logger.error("userRegister : error from database");
         }
         return userId;
     }

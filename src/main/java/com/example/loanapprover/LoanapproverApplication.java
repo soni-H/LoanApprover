@@ -60,4 +60,9 @@ public class LoanapproverApplication {
     public Integer registerUser(@RequestBody UserRegister userRegister) throws Exception{
         return new UserAccessServices().userRegister(userRegister);
     }
+
+    @PostMapping("/saveHistoricalRecord")
+    public Integer saveHistoricalRecord(@RequestBody HistoricalRecord historicalRecord) throws Exception{
+        return new LoanCaseServices().saveHistoricalRecord(historicalRecord);
+    }
 }

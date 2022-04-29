@@ -9,3 +9,24 @@ password varchar(30) not null,
 
 constraint pk_user PRIMARY KEY (userID)
 ); 
+
+
+create table historical_records(
+
+recordID smallint NOT NULL AUTO_INCREMENT,
+loan_amnt  double NOT NULL,
+term   varchar(20) NOT NULL  ,
+emp_length smallint(6) NOT NULL ,
+ home_ownership  varchar(30) NOT NULL ,
+annual_inc    int(11)  NOT NULL   ,
+ verification_status    varchar(20) NOT NULL  ,
+ purpose    varchar(20) NOT NULL,
+addr_state    varchar(2)  NOT NULL  ,
+ dti    double   NOT NULL  ,
+delinq_2yrs  int(11)   NOT NULL  ,
+ revol_util    double     NOT NULL   ,
+ total_acc    int(11)     NOT NULL    ,
+ longest_credit_length int(11)   NOT NULL ,
+loan_verification char(1) NOT NULL,
+constraint pk_record PRIMARY KEY (recordID)
+);

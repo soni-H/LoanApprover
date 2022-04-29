@@ -1,12 +1,16 @@
 package com.example.loanapprover.service.impl;
 
 import com.example.loanapprover.beans.LoanCases;
+import com.example.loanapprover.beans.LoanRecord;
+import com.example.loanapprover.pojo.HistoricalRecord;
 import com.example.loanapprover.pojo.PredictionCase;
 import com.example.loanapprover.pojo.PredictionRequest;
 import com.example.loanapprover.pojo.PredictionResponse;
 import com.example.loanapprover.service.LoanCase;
 
 import com.example.loanapprover.utils.HibernateSessionUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.json.JSONObject;
@@ -19,6 +23,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LoanCaseServices implements LoanCase {
+
+    private static final Logger logger = LogManager.getLogger(LoanCaseServices.class);
+
     @Override
     public PredictionResponse predictLoanCase(MultiValueMap predictionRequest) {
         PredictionResponse res=null;
@@ -55,6 +62,7 @@ Map<String,String> params=mapRequestToUrl(predictionRequest);
             String.class,
             params
     );
+    logger.info("predictLoanCase : Successfully executed predictLoan api call");
     JSONObject jsonObject = new JSONObject(response.getBody());
     res = new PredictionResponse();
     res.setConfidence(Double.parseDouble(jsonObject.get("confidence").toString()));
@@ -63,6 +71,7 @@ Map<String,String> params=mapRequestToUrl(predictionRequest);
         res.setInterest_rate(Double.parseDouble(jsonObject.get("interest_rate").toString()));
 }catch(Exception e){
     e.printStackTrace();
+    logger.error("predictLoanCase : Error occurred while calling the predictLoan api.");
 }
         return res;
     }
@@ -76,10 +85,48 @@ Map<String,String> params=mapRequestToUrl(predictionRequest);
             session.persist(loanCase);
             transaction.commit();
             caseId=loanCase.getCaseID();
+            logger.info("postLoanCase : Successfully saved a loan case in database.");
         }catch(Exception e){
             e.printStackTrace();
+            logger.error("postLoanCase : Error from database");
         }
         return caseId;
+    }
+
+    @Override
+    public Integer saveHistoricalRecord(HistoricalRecord historicalRecord) {
+        int recordID=-1;
+        LoanRecord loanRecord=mapHistoricalRecordToLoanRecord(historicalRecord);
+        try(Session session= HibernateSessionUtil.getSession()){
+            Transaction transaction=session.beginTransaction();
+            session.persist(loanRecord);
+            transaction.commit();
+            recordID=loanRecord.getRecordID();
+            logger.info("saveHistoricalRecord : Successfully saved a historical record in database.");
+        }catch(Exception e){
+            e.printStackTrace();
+            logger.error("saveHistoricalRecord : Error from database");
+        }
+        return recordID;
+    }
+    public LoanRecord mapHistoricalRecordToLoanRecord(HistoricalRecord historicalRecord){
+        LoanRecord loanRecord=new LoanRecord();
+        loanRecord.setLoanAmount(historicalRecord.getLoan_amnt());
+        loanRecord.setAddressState(historicalRecord.getAddr_state());
+        loanRecord.setLoanVerification(historicalRecord.getLoan_verification());
+        loanRecord.setAnnualIncome(historicalRecord.getAnnual_inc());
+        loanRecord.setPurpose(historicalRecord.getPurpose());
+        loanRecord.setEmpLength(historicalRecord.getEmp_length());
+        loanRecord.setDebtToIncomeRatio(historicalRecord.getDti());
+        loanRecord.setHomeOwnership(historicalRecord.getHome_ownership());
+        loanRecord.setLongestCreditLength(historicalRecord.getLongest_credit_length());
+        loanRecord.setMisdemeanourYears(historicalRecord.getDelinq_2yrs());
+        loanRecord.setRevolvingCredit(historicalRecord.getRevol_util());
+        loanRecord.setTerm(historicalRecord.getTerm());
+        loanRecord.setTotalAccounts(historicalRecord.getTotal_acc());
+        loanRecord.setVerificationStatus(historicalRecord.getVerification_status());
+        return loanRecord;
+
     }
 
 

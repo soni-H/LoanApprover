@@ -38,7 +38,7 @@ function Login() {
     } else {
       // Username not found
       setErrorMessages({ name: "uname",
-        message: errors.uname });
+        message: 'Invalid username or password' });
     }
   };
 

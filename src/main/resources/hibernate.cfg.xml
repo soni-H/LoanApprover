@@ -22,6 +22,7 @@
 
         <mapping class="com.example.loanapprover.beans.UserDetails"/><!--beanswewillbeusingfortheproject-->
         <mapping class="com.example.loanapprover.beans.LoanCases"/>
+        <mapping class="com.example.loanapprover.beans.LoanRecord"/>
 
     </session-factory>
 
