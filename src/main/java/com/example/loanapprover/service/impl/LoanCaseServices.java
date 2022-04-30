@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class LoanCaseServices implements LoanCase {
 
-    //private static final Logger logger = LogManager.getLogger(LoanCaseServices.class);
+    private static final Logger logger = LogManager.getLogger(LoanCaseServices.class);
 
     @Override
     public PredictionResponse predictLoanCase(MultiValueMap predictionRequest) {
@@ -63,7 +63,7 @@ Map<String,String> params=mapRequestToUrl(predictionRequest);
             String.class,
             params
     );
-    //logger.info("predictLoanCase : Successfully executed predictLoan api call");
+    logger.info("predictLoanCase : Successfully executed predictLoan api call");
     JSONObject jsonObject = new JSONObject(response.getBody());
     res = new PredictionResponse();
     res.setConfidence(Double.parseDouble(jsonObject.get("confidence").toString()));
@@ -72,7 +72,7 @@ Map<String,String> params=mapRequestToUrl(predictionRequest);
         res.setInterest_rate(Double.parseDouble(jsonObject.get("interest_rate").toString()));
 }catch(Exception e){
     e.printStackTrace();
-    //logger.error("predictLoanCase : Error occurred while calling the predictLoan api.");
+    logger.error("predictLoanCase : Error occurred while calling the predictLoan api.");
 }
         return res;
     }
