@@ -86,10 +86,10 @@ Map<String,String> params=mapRequestToUrl(predictionRequest);
             session.persist(loanCase);
             transaction.commit();
             caseId=loanCase.getCaseID();
-            //logger.info("postLoanCase : Successfully saved a loan case in database.");
+            logger.info("postLoanCase : Successfully saved a loan case in database.");
         }catch(Exception e){
             e.printStackTrace();
-            //logger.error("postLoanCase : Error from database");
+            logger.error("postLoanCase : Error from database");
         }
         return caseId;
     }
@@ -103,10 +103,10 @@ Map<String,String> params=mapRequestToUrl(predictionRequest);
             session.persist(loanRecord);
             transaction.commit();
             recordID=loanRecord.getRecordID();
-            //logger.info("saveHistoricalRecord : Successfully saved a historical record in database.");
+            logger.info("saveHistoricalRecord : Successfully saved a historical record in database.");
         }catch(Exception e){
             e.printStackTrace();
-            //logger.error("saveHistoricalRecord : Error from database");
+            logger.error("saveHistoricalRecord : Error from database");
         }
         return recordID;
     }
@@ -138,11 +138,11 @@ Map<String,String> params=mapRequestToUrl(predictionRequest);
                 response.setPurpose(loanCase[13].toString());
                 response.setAddr_state(loanCase[14].toString());
                 response.setEmp_length(Integer.parseInt(loanCase[15].toString()));
-                //logger.info("getLoanCase : api called successfully.");
+                logger.info("getLoanCase : api called successfully.");
             }else return null;
         }catch(Exception e){
             e.printStackTrace();
-            //logger.error("getLoanCase : error calling api");
+            logger.error("getLoanCase : error calling api");
         }
         return response;
     }
