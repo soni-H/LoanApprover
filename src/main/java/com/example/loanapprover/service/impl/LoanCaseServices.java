@@ -20,17 +20,18 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class LoanCaseServices implements LoanCase {
 
-    private static final Logger logger = LogManager.getLogger(LoanCaseServices.class);
+    //private static final Logger logger = LogManager.getLogger(LoanCaseServices.class);
 
     @Override
     public PredictionResponse predictLoanCase(MultiValueMap predictionRequest) {
         PredictionResponse res=null;
 try {
-    String url = "http://localhost:5000/";
+    String url = "http://webla:5000/";
     RestTemplate restTemplate = new RestTemplate();
     HttpHeaders headers = new HttpHeaders();
     headers.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
@@ -62,7 +63,7 @@ Map<String,String> params=mapRequestToUrl(predictionRequest);
             String.class,
             params
     );
-    logger.info("predictLoanCase : Successfully executed predictLoan api call");
+    //logger.info("predictLoanCase : Successfully executed predictLoan api call");
     JSONObject jsonObject = new JSONObject(response.getBody());
     res = new PredictionResponse();
     res.setConfidence(Double.parseDouble(jsonObject.get("confidence").toString()));
@@ -71,7 +72,7 @@ Map<String,String> params=mapRequestToUrl(predictionRequest);
         res.setInterest_rate(Double.parseDouble(jsonObject.get("interest_rate").toString()));
 }catch(Exception e){
     e.printStackTrace();
-    logger.error("predictLoanCase : Error occurred while calling the predictLoan api.");
+    //logger.error("predictLoanCase : Error occurred while calling the predictLoan api.");
 }
         return res;
     }
@@ -85,10 +86,10 @@ Map<String,String> params=mapRequestToUrl(predictionRequest);
             session.persist(loanCase);
             transaction.commit();
             caseId=loanCase.getCaseID();
-            logger.info("postLoanCase : Successfully saved a loan case in database.");
+            //logger.info("postLoanCase : Successfully saved a loan case in database.");
         }catch(Exception e){
             e.printStackTrace();
-            logger.error("postLoanCase : Error from database");
+            //logger.error("postLoanCase : Error from database");
         }
         return caseId;
     }
@@ -102,13 +103,50 @@ Map<String,String> params=mapRequestToUrl(predictionRequest);
             session.persist(loanRecord);
             transaction.commit();
             recordID=loanRecord.getRecordID();
-            logger.info("saveHistoricalRecord : Successfully saved a historical record in database.");
+            //logger.info("saveHistoricalRecord : Successfully saved a historical record in database.");
         }catch(Exception e){
             e.printStackTrace();
-            logger.error("saveHistoricalRecord : Error from database");
+            //logger.error("saveHistoricalRecord : Error from database");
         }
         return recordID;
     }
+
+    @Override
+    public PredictionCase getLoanCase(int caseID) {
+        PredictionCase response=new PredictionCase();
+        try(Session session= HibernateSessionUtil.getSession()){
+            List<Object[]> queryResponses=session.createQuery("select loanAmount,annualIncome,homeOwnership," +
+                            "verificationStatus,longestCreditLength,interestRate,confidence,prediction,revolvingCredit," +
+                            "term,debtToIncomeRatio,misdemeanourYears,totalAccounts,purpose,addressState," +
+                            "empLength from LoanCases u where u.caseID=:caseID ")
+                    .setParameter("caseID",caseID).getResultList();
+            if(queryResponses.size()==1) {
+                Object[] loanCase = queryResponses.get(0);
+                response.setLoan_amnt(Double.parseDouble(loanCase[0].toString()));
+                response.setAnnual_inc(Integer.parseInt(loanCase[1].toString()));
+                response.setHome_ownership(loanCase[2].toString());
+                response.setVerification_status(loanCase[3].toString());
+                response.setLongest_credit_length(Integer.parseInt(loanCase[4].toString()));
+                response.setInterest_rate(Double.parseDouble(loanCase[5].toString()));
+                response.setConfidence(Double.parseDouble(loanCase[6].toString()));
+                response.setPrediction(loanCase[7].toString());
+                response.setRevol_util(Double.parseDouble(loanCase[8].toString()));
+                response.setTerm(loanCase[9].toString());
+                response.setDti(Double.parseDouble(loanCase[10].toString()));
+                response.setDelinq_2yrs(Integer.parseInt(loanCase[11].toString()));
+                response.setTotal_acc(Integer.parseInt(loanCase[12].toString()));
+                response.setPurpose(loanCase[13].toString());
+                response.setAddr_state(loanCase[14].toString());
+                response.setEmp_length(Integer.parseInt(loanCase[15].toString()));
+                //logger.info("getLoanCase : api called successfully.");
+            }else return null;
+        }catch(Exception e){
+            e.printStackTrace();
+            //logger.error("getLoanCase : error calling api");
+        }
+        return response;
+    }
+
     public LoanRecord mapHistoricalRecordToLoanRecord(HistoricalRecord historicalRecord){
         LoanRecord loanRecord=new LoanRecord();
         loanRecord.setLoanAmount(historicalRecord.getLoan_amnt());

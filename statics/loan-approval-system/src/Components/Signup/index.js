@@ -30,7 +30,7 @@ import Swal from "sweetalert2";
     // Handling the form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (name != '' && email != '' && password != '') {
+        if (name !== '' && email !== '' && password !== '') {
             setError(true);
             const body = {
                 'fullName': name, 'emailID': email, 'password': password

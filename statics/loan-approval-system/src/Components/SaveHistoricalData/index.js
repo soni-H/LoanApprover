@@ -25,13 +25,16 @@ function SaveData({ users, setUsers, setIsAdding }) {
     const [totalacc, settotalacc] = useState('');
     const [prevcreditlength, setprevcreditlength] = useState('');
     const [verificationStatus, setverificationStatus] = useState(['verified', 'not verified'])
+    const [loan_verification, setloan_verification] = useState(['Y', 'N'])
 
     const [visible, setVisible] = React.useState(false);
-    const [confidence, setconfidence] = useState('');
-    const [loanverified, setloanverified] = useState('');
-    const [interest_rate, setinterest_rate] = useState('');
+
     const textInput = useRef(null);
 
+    const loan_verification_options= [
+        { value: 'Y', label: 'Y' },
+        { value: 'N', label: 'N' }
+    ]
     const home_ownership_options = [
         { value: 'MORTGAGE', label: 'MORTGAGE' },
         { value: 'RENT', label: 'RENT' },
@@ -104,61 +107,10 @@ function SaveData({ users, setUsers, setIsAdding }) {
     useEffect(() => {
         textInput.current.focus();
     }, [])
-    const handlePredict = async (e) => {
-        e.preventDefault();
-        const id = users.length + 1;
 
-        const result = await axios.get("http://localhost:8081/predictLoan", {
-            params: {
-                'annual_inc': salary,
-                'loan_amnt': loan_amnt,
-                'term': term['value'],
-                'emp_length': empl_length,
-                'home_ownership': home_ownersh['value'],
-                'purpose': purpose['value'],
-                'addr_state': city['value'],
-                'dti': dti,
-                'delinq_2yrs': delinq,
-                'revol_util': revol,
-                'total_acc': totalacc,
-                'longest_credit_length': prevcreditlength,
-                'verification_status': verificationStatus['value']
-            }
-        });
-        let data = result['data']
-        setconfidence(data['confidence']);
-        setloanverified(data['prediction']);
-        setinterest_rate(data['interest_rate']);
-        if (result['status'] === 200) {
-
-            setVisible(true);
-        }
-
-
-
-        console.log(confidence, loanverified, interest_rate);
-
-        /*Swal.fire({
-            icon: "success",
-            title:"Results",
-            text: `${result}`, 
-            showConfirmButton: false
-            //timer:15000
-
-        })*/
-    }
     const handleSave = async (e) => {
-        const id = users.length + 1;
-        if (confidence === '' || loanverified === '') {
-            Swal.fire({
-                icon: "error",
-                title: "Results",
-                text: `Kindly predict the case before submitting.`,
-                showConfirmButton: true,
-                //timer: 1500
+        //const id = users.length + 1;
 
-            })
-        } else {
             let params = {
                 'annual_inc': salary,
                 'loan_amnt': loan_amnt,
@@ -173,11 +125,9 @@ function SaveData({ users, setUsers, setIsAdding }) {
                 'total_acc': totalacc,
                 'longest_credit_length': prevcreditlength,
                 'verification_status': verificationStatus['value'],
-                'confidence': confidence,
-                'prediction': loanverified,
-                'interest_rate': interest_rate
+                'loan_verification': loan_verification['value']
             }
-            const result = await axios.post("http://localhost:8081/saveCase", params);
+            const result = await axios.post("http://localhost:8081/saveHistoricalRecord", params);
             if (result['data'] === -1) {
                 Swal.fire({
                     icon: "error",
@@ -197,14 +147,14 @@ function SaveData({ users, setUsers, setIsAdding }) {
 
                 })
             }
-        }
+
         
 
     }
 
     return (
         <div className="small-container">
-            <form onSubmit={handlePredict}>
+            <form onSubmit={handleSave}>
                 <h1>Predict Case</h1>
                 <label htmlFor="salary">Annual income ($)</label>
                 <input
@@ -317,36 +267,16 @@ function SaveData({ users, setUsers, setIsAdding }) {
                     value={verificationStatus}
                     onChange={e => setverificationStatus(e)}
                 />
-                <div style={{ display: visible ? 'block' : 'none' }}>
-                    <label htmlFor="confidence">Confidence</label>
-                    <input
-                        disabled={true}
-                        id="confidence"
-                        type="confidence"
-                        name="confidence"
-                        value={confidence}
-                    //onChange={e => setconfidence(e.target.value)}
-                    />
-                    <label htmlFor="loanverified">Loan Verification Status</label>
-                    <input
-                        disabled={true}
-                        id="loanverified"
-                        type="loanverified"
-                        name="loanverified"
-                        value={loanverified}
-                    //onChange={e => setloanverified(e.target.value)}
-                    />
-                    <label htmlFor="interest_rate">Predicted Interest Rate</label>
-                    <input
-                        disabled={true}
-                        id="interest_rate"
-                        type="interest_rate"
-                        name="interest_rate"
-                        value={interest_rate}
-                    //onChange={e => setinterest_rate(e.target.value)}
-                    />
-                    
-                </div>
+                <label htmlFor="verificationStatus">Loan verification status</label>
+                <Select
+                    options={loan_verification_options}
+                    id="loan_verification"
+                    type="loan_verification"
+                    name="loan_verification"
+                    value={loan_verification}
+                    onChange={e => setloan_verification(e)}
+                />
+
                 <div style={{ marginTop: '30px' }}>
                     <input
                         style={{ marginLeft: '12px' }}
@@ -360,7 +290,7 @@ function SaveData({ users, setUsers, setIsAdding }) {
                         className="muted-button"
                         type="button"
                         value="Cancel"
-                        onClick={() => navigate('/')}
+                        onClick={() => navigate('/dashboard')}
                     />
                     
 

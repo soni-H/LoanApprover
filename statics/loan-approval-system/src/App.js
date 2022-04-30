@@ -5,12 +5,14 @@ import Dashboard from './Components/Dashboard'
 import Login from './Components/Login'
 import SaveData from './Components/SaveHistoricalData';
 import ShowData from './Components/ShowLoanCase';
+import Signup from "./Components/Signup";
 function App() {
   return (
   <BrowserRouter>
     <Routes>
       <Route exact path="/" element={<Login />} />
      <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/signup" element={<Signup />} />
      <Route path="/saveData" element={<SaveData />} />
      <Route path="/showData" element={<ShowData />} />
      <Route path="*" element={<h1>Error 404 Page not found !!</h1>} />

@@ -11,4 +11,5 @@ public interface LoanCase {
     public PredictionResponse predictLoanCase(MultiValueMap predictionRequest);
     public Integer postLoanCase(PredictionCase predictionCase);
     public Integer saveHistoricalRecord(HistoricalRecord historicalRecord);
+    public PredictionCase getLoanCase(int caseID);
 }

@@ -65,4 +65,9 @@ public class LoanapproverApplication {
     public Integer saveHistoricalRecord(@RequestBody HistoricalRecord historicalRecord) throws Exception{
         return new LoanCaseServices().saveHistoricalRecord(historicalRecord);
     }
+
+    @GetMapping("getCase")
+    public PredictionCase getLoanCase(@RequestParam int caseID) throws Exception{
+        return new LoanCaseServices().getLoanCase(caseID);
+    }
 }
