@@ -19,6 +19,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -145,6 +147,20 @@ Map<String,String> params=mapRequestToUrl(predictionRequest);
             logger.error("getLoanCase : error calling api");
         }
         return response;
+    }
+
+    @Override
+    public List<Integer> getAllSavedCases() {
+        List<Integer> responses=new ArrayList<>();
+        try(Session session= HibernateSessionUtil.getSession()){
+            responses=session.createQuery("select caseID from LoanCases u ")
+                    .getResultList();
+            logger.info("getAllSavedCases : api called successfully.");
+        }catch(Exception e){
+            e.printStackTrace();
+            logger.error("getAllSavedCases : error calling api");
+        }
+        return responses;
     }
 
     public LoanRecord mapHistoricalRecordToLoanRecord(HistoricalRecord historicalRecord){

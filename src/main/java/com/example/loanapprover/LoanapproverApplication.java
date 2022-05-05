@@ -12,6 +12,8 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import java.util.List;
+
 @SpringBootApplication
 @RestController
 public class LoanapproverApplication {
@@ -66,8 +68,13 @@ public class LoanapproverApplication {
         return new LoanCaseServices().saveHistoricalRecord(historicalRecord);
     }
 
-    @GetMapping("getCase")
-    public PredictionCase getLoanCase(@RequestParam int caseID) throws Exception{
+    @GetMapping("/getAll")
+    public List<Integer> getAllSavedCases() throws Exception{
+        return new LoanCaseServices().getAllSavedCases();
+    }
+
+    @GetMapping("/getAll/{caseID}")
+    public PredictionCase getLoanCase(@PathVariable int caseID) throws Exception{
         return new LoanCaseServices().getLoanCase(caseID);
     }
 }
