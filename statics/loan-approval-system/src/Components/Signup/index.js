@@ -3,7 +3,7 @@ import { useState } from 'react';
 import './index.css'
 import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 import Swal from "sweetalert2";
- function Form() {
+function Form() {
     const navigate = useNavigate();
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -103,7 +103,7 @@ import Swal from "sweetalert2";
                 {successMessage()}
             </div>
 
-            <form>
+            <form className="forms">
                 <label className="label">Name</label>
                 <input onChange={handleName} className="input"
                     value={name} type="text" />
@@ -115,13 +115,14 @@ import Swal from "sweetalert2";
                 <label className="label">Password</label>
                 <input onChange={handlePassword} className="input"
                     value={password} type="password" />
-
-                <button onClick={handleSubmit} className="btn" type="submit">
-                    Submit
-                </button>
-                <button onClick={handleLogin} className="btn" type="submit">
-                    Login
-                </button>
+                <div className="space">
+                    <button onClick={handleSubmit} className="btn" type="submit">
+                        Submit
+                    </button>
+                    <button onClick={handleLogin} className="btn" type="submit">
+                        Login
+                    </button>
+                </div>
             </form>
         </div>
     );

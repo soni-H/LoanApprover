@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import axios from "axios";
 import Select from "react-select";
 import { NavLink, useNavigate } from 'react-router-dom';
+import './index.css'
 
 function ShowCase() {
     const navigate = useNavigate()
@@ -218,7 +219,7 @@ function ShowCase() {
   }
   return (
     <div>
-        <form onSubmit={handleFetch}>
+        <form className="form">
         <label htmlFor="id">Enter User ID</label>
                 <input
                     id="id"
@@ -227,8 +228,15 @@ function ShowCase() {
                     ref={textInput}
                     value={id}
                     onChange={e => setId(e.target.value)}
+                    
                 />
-                <input type="submit" value="Submit" />
+                <button type="submit" value="Submit" onClick={handleFetch}>Submit</button>
+                <button
+                        style={{ marginLeft: '12px' }}
+                        type="button"
+                        value="Cancel"
+                        onClick={() => navigate('/dashboard')}
+                >Cancel</button>
         </form>
     </div>
   )

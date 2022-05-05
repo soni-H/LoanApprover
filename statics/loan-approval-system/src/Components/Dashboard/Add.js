@@ -204,7 +204,7 @@ function Add({ users, setUsers, setIsAdding }) {
 
     return (
         <div className="small-container">
-            <form onSubmit={handlePredict}>
+            <form>
                 <h1>Predict Case</h1>
                 <label htmlFor="salary">Annual income ($)</label>
                 <input
@@ -347,21 +347,26 @@ function Add({ users, setUsers, setIsAdding }) {
                     />
                 </div>
                 <div style={{ marginTop: '30px' }}>
-                    <input type="submit" value="Predict" />
-                    <input
+                    <button 
+                    type="submit" 
+                    value="Predict"
+                    onClick={handlePredict} 
+                    >
+                        Predict</button>
+                    <button
                         style={{ marginLeft: '12px' }}
-                        className="muted-button"
+                       
                         type="button"
                         value="Save"
                         onClick={handleSave}
-                    />
-                    <input
+                    >Save</button>
+                    <button
                         style={{ marginLeft: '12px' }}
-                        className="muted-button"
+                       
                         type="button"
                         value="Cancel"
                         onClick={() => setIsAdding(false)}
-                    />
+                    >Cancel</button>
                     
 
                 </div>

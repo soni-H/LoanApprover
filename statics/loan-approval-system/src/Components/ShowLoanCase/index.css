@@ -1,0 +1,14 @@
+.form{
+    margin-left: 25%;
+    margin-right:25%;
+    width: 50%;
+  
+}
+input[type=submit],input[type=button] {
+    padding:5px 15px; 
+    background:#ccc; 
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+}

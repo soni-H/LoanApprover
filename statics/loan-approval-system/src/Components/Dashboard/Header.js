@@ -10,24 +10,26 @@ function Header({ setIsAdding }) {
   const handleRecord = () => {
     setIsAdding(false);
     navigate("/saveData")
-}
-const handleCase= () => {
+  }
+  const handleCase = () => {
     setIsAdding(false);
     navigate("/showData")
-}
+  }
   return (
-    <header>
-        <h1>Users Dashboard</h1>
-        <div style={{ marginTop: '30px', marginBottom: '18px' }}>
-        <button onClick={() => setIsAdding(true)} className='round-button'>Predict Case</button>
-        <div style={{float:'right'}}>
-        <button variant='contained' color='warning' size='large' className="round-button"  onClick={handleRecord} sx={{ mt: 8 }}>Save Record</button>
-        <button variant='contained' color='warning' size='large' className="round-button"  onClick={handleCase} sx={{ mt: 8 }}>Show Record</button>
-        <button variant='contained' color='warning' size='large' className="round-button"  onClick={handleLogout} sx={{ mt: 8 }}>Logout</button>
-        
-        </div>
-        </div>
-    </header>
+    <div>
+      <header className="header">
+        <div className="title"><h1>Users Dashboard</h1></div>
+        <div className="logout"><button variant='contained' color='warning' size='large' className="round-button logout" onClick={handleLogout} sx={{ mt: 8 }}>Logout</button>
+</div>
+      </header>
+      <div className="grid-container">
+        <h2>Services</h2>
+        <button variant='contained' color='warning' size='large' onClick={() => setIsAdding(true)} className='round-button'>Predict Case</button>
+        <button variant='contained' color='warning' size='large' className="round-button" onClick={handleRecord} sx={{ mt: 8 }}>Save Record</button>
+        <button variant='contained' color='warning' size='large' className="round-button" onClick={handleCase} sx={{ mt: 8 }}>Show Record</button>
+      </div>
+    </div>
+
   )
 }
 

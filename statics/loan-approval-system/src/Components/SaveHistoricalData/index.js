@@ -278,20 +278,18 @@ function SaveData({ users, setUsers, setIsAdding }) {
                 />
 
                 <div style={{ marginTop: '30px' }}>
-                    <input
+                    <button
                         style={{ marginLeft: '12px' }}
-                        className="muted-button"
                         type="button"
                         value="Save"
                         onClick={handleSave}
-                    />
-                    <input
+                    >Save</button>
+                    <button
                         style={{ marginLeft: '12px' }}
-                        className="muted-button"
                         type="button"
                         value="Cancel"
                         onClick={() => navigate('/dashboard')}
-                    />
+                    >Cancel</button>
                     
 
                 </div>
