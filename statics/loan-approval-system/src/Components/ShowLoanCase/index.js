@@ -11,7 +11,7 @@ function ShowCase() {
   const textInput = useRef(null);
   let salary=null;
     let loan_amnt=null;
-    let term=45;
+    let term=null;
     let empl_length=null;
     let home_ownersh=null;
     let purpose=null;
@@ -79,20 +79,23 @@ function ShowCase() {
                 >Cancel</button>
         </form>
         {show &&
-        <div><p>Loan ID-{id}</p>
-             <p>Loan Amount- {loan_amnt}</p>
-             <p>Term- {term}</p>
-             <p>Employee Length- {empl_length}</p>
-             <p>homeOwnership- {home_ownersh}</p>
-             <p>Salary- {salary}</p>
-             <p>purpose- {purpose}</p>
-             <p>Loan Amount- {loan_amnt}</p>
-             <p>Loan Amount- {loan_amnt}</p>
-             <p>Loan Amount- {loan_amnt}</p>
-             <p>Loan Amount- {loan_amnt}</p>
-             <p>Loan Amount- {loan_amnt}</p>
-             <p>Loan Amount- {loan_amnt}</p>
-             <p>Loan Amount- {loan_amnt}</p>
+        <div className="form1">
+           <p>salary-{salary}</p>
+             <p>Loan Amount-{loan_amnt}</p>
+             <p>Term-{term}</p>
+             <p>Employee Length-{empl_length}</p>
+             <p>home_ownership-{home_ownersh}</p>
+             <p>Purpose-{purpose}</p>
+             <p>City-{city}</p>
+             <p>dti-{dti}</p>
+             <p>delinq-{delinq}</p>
+             <p>revol-{revol}</p>
+             <p>total account-{totalacc}</p>
+             <p>PreviousCreditLength-{prevcreditlength}</p>
+             <p>VerificationStatus-{verificationStatus}</p>
+             <p>Loan Verification-{loan_verification}</p>
+             <p>Confidence-{confidence}</p>
+             <p>Intrest Rate-{interest_rate}</p>
         </div> }
     </div>
   )
