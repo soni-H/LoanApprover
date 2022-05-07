@@ -4,3 +4,14 @@
     width: 50%;
   
 }
+.form1{
+    margin-left: 25%;
+    margin-right:25%;
+    width: 50%;
+    border-style: solid;
+}
+p{
+    padding-left:10px;
+    font-style: Serif;
+    margin:5px;
+}
