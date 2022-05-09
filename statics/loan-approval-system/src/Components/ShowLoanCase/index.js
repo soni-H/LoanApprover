@@ -49,9 +49,7 @@ function ShowCase() {
          })
          return;
      }
-     else{
        setShow(true);
-     }
 
       setLoan_amnt(loanCase['loan_amnt']);
       setTerm(loanCase['term']);
