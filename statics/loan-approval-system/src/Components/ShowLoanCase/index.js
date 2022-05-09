@@ -31,13 +31,14 @@ function ShowCase() {
   const handleFetch = async (e) => {
       e.preventDefault();
       console.log(id);
-      setShow(true);
+    
       const userData = await axios.get("http://localhost:8081/getAll/"+id
 
       );
       let loanCase;
       loanCase=userData['data']
      if(loanCase === ''){
+         setShow(false);
          Swal.fire({
              icon: "error",
              title: "Results",
@@ -47,6 +48,9 @@ function ShowCase() {
 
          })
          return;
+     }
+     else{
+       setShow(true);
      }
 
       setLoan_amnt(loanCase['loan_amnt']);
