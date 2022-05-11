@@ -51,7 +51,7 @@ import Swal from "sweetalert2";
         } else {
             console.log('Inside else');
             setSubmitted(true);
-            setError(false);
+            setError(true);
 
             Swal.fire({
                 icon: "error",
@@ -97,28 +97,27 @@ import Swal from "sweetalert2";
                 <h1>User Registration</h1>
             </div>
 
-            {/* Calling to the methods */}
-            <div className="messages">
-                {errorMessage()}
-                {successMessage()}
-            </div>
+
 
             <form className="forms">
+                <div>
                 <label className="label">Name</label>
-                <input onChange={handleName} className="input"
+                <input style={{width: "370px"}} onChange={handleName} className="input"
                     value={name} type="text" />
 
                 <label className="label">Email</label>
-                <input onChange={handleEmail} className="input"
+                <input style={{width: "370px"}} onChange={handleEmail} className="input"
                     value={email} type="email" />
 
                 <label className="label">Password</label>
                 <input onChange={handlePassword} className="input"
                     value={password} type="password" />
-                
+                </div>
+                &nbsp;&nbsp;&nbsp;
                 <button onClick={handleSubmit} className="btn" type="submit">
                     Submit
                 </button>
+                &nbsp;&nbsp;&nbsp;
                 <button onClick={handleLogin} className="btn" type="submit">
                     Login
                 </button>

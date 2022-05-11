@@ -30,7 +30,7 @@ function Login() {
   });
 
     // Compare user info
-    console.log(userData)
+    console.log('uswr data is '+userData)
     if (userData['data']===true) {
       setIsSubmitted(true);
       console.log(uname,pass);
@@ -56,19 +56,19 @@ function Login() {
       <form onSubmit={handleSubmit}>
         <div className="input-container">
           <label>Username </label>
-          <input type="text" name="uname" required />
+          <input style={{width: "370px"}} type="text" name="uname" required />
           {renderErrorMessage("uname")}
         </div>
         <div className="input-container">
           <label>Password </label>
-          <input type="password" name="pass" required />
+          <input style={{width: "370px"}} type="password" name="pass" required />
           {renderErrorMessage("pass")}
         </div>
         <div className="button-container">
-          <input type="submit" value="Login"/>
+          <button type="submit" value="Login" className="square-button" onClick={handleSubmit}>Log In</button>
         </div>
         <div className="button-container">
-        <button variant='contained' color='warning' size='small' className="round-button"  onClick={handleSignup} sx={{ mt: 8 }}>SignUp</button>
+        <button variant='contained' color='warning' size='small' className="square-button"  onClick={handleSignup} sx={{ mt: 8 }}>SignUp</button>
         </div>
 
       </form>

@@ -2,10 +2,7 @@ package com.example.loanapprover.service.impl;
 
 import com.example.loanapprover.beans.LoanCases;
 import com.example.loanapprover.beans.LoanRecord;
-import com.example.loanapprover.pojo.HistoricalRecord;
-import com.example.loanapprover.pojo.PredictionCase;
-import com.example.loanapprover.pojo.PredictionRequest;
-import com.example.loanapprover.pojo.PredictionResponse;
+import com.example.loanapprover.pojo.*;
 import com.example.loanapprover.service.LoanCase;
 
 import com.example.loanapprover.utils.HibernateSessionUtil;
@@ -31,6 +28,8 @@ public class LoanCaseServices implements LoanCase {
 
     @Override
     public PredictionResponse predictLoanCase(MultiValueMap predictionRequest) {
+        logger.debug("predictLoanCase : started");
+        ServiceResponse serviceResponse=new ServiceResponse();
         PredictionResponse res=null;
 try {
     String url = "http://webla:5000/";
@@ -65,22 +64,30 @@ Map<String,String> params=mapRequestToUrl(predictionRequest);
             String.class,
             params
     );
-    logger.info("predictLoanCase : Successfully executed predictLoan api call");
+    serviceResponse.setMessage("Successfully executed predictLoan api call");
+    serviceResponse.setResponseCode(200);
     JSONObject jsonObject = new JSONObject(response.getBody());
     res = new PredictionResponse();
     res.setConfidence(Double.parseDouble(jsonObject.get("confidence").toString()));
     res.setPrediction(jsonObject.get("prediction").toString());
     if(res.getPrediction().equalsIgnoreCase("Verified"))
         res.setInterest_rate(Double.parseDouble(jsonObject.get("interest_rate").toString()));
+    logger.info(serviceResponse);
+    logger.debug("predictLoanCase : ended");
 }catch(Exception e){
     e.printStackTrace();
-    logger.error("predictLoanCase : Error occurred while calling the predictLoan api.");
+    serviceResponse.setMessage("Error occurred while calling the predictLoan api");
+    serviceResponse.setResponseCode(500);
+    logger.error("predictLoanCase :  Ended");
 }
         return res;
     }
 
     @Override
     public Integer postLoanCase(PredictionCase predictionCase) {
+
+        ServiceResponse response=new ServiceResponse();
+        logger.debug("postLoanCase : Started");
         int caseId=-1;
         LoanCases loanCase=mapRequestToLoanCase(predictionCase);
         try(Session session= HibernateSessionUtil.getSession()){
@@ -88,33 +95,50 @@ Map<String,String> params=mapRequestToUrl(predictionRequest);
             session.persist(loanCase);
             transaction.commit();
             caseId=loanCase.getCaseID();
-            logger.info("postLoanCase : Successfully saved a loan case in database.");
+            response.setResponseCode(200);
+            response.setMessage("Successfully saved a loan case in database");
+            logger.info(response);
+            logger.debug("postLoanCase : Ended");
         }catch(Exception e){
             e.printStackTrace();
-            logger.error("postLoanCase : Error from database");
+            response.setResponseCode(500);
+            response.setMessage("Error from database");
+            logger.debug("postLoanCase : Ended with error");
+            logger.error(response);
         }
         return caseId;
     }
 
     @Override
     public Integer saveHistoricalRecord(HistoricalRecord historicalRecord) {
+        logger.debug("saveHistoricalRecord : Started");
+        ServiceResponse response=new ServiceResponse();
         int recordID=-1;
+
         LoanRecord loanRecord=mapHistoricalRecordToLoanRecord(historicalRecord);
         try(Session session= HibernateSessionUtil.getSession()){
             Transaction transaction=session.beginTransaction();
             session.persist(loanRecord);
             transaction.commit();
             recordID=loanRecord.getRecordID();
-            logger.info("saveHistoricalRecord : Successfully saved a historical record in database.");
+            response.setResponseCode(200);
+            response.setMessage("Successfully saved a historical record in database");
+            logger.info(response);
+            logger.debug("saveHistoricalRecord : Ended");
         }catch(Exception e){
             e.printStackTrace();
-            logger.error("saveHistoricalRecord : Error from database");
+            response.setResponseCode(500);
+            response.setMessage("Error saving record in database");
+            logger.error(response);
+            logger.error("saveHistoricalRecord : Ended");
         }
         return recordID;
     }
 
     @Override
     public PredictionCase getLoanCase(int caseID) {
+        logger.debug("getLoanCase : Started");
+        ServiceResponse res=new ServiceResponse();
         PredictionCase response=new PredictionCase();
         try(Session session= HibernateSessionUtil.getSession()){
             List<Object[]> queryResponses=session.createQuery("select loanAmount,annualIncome,homeOwnership," +
@@ -140,25 +164,39 @@ Map<String,String> params=mapRequestToUrl(predictionRequest);
                 response.setPurpose(loanCase[13].toString());
                 response.setAddr_state(loanCase[14].toString());
                 response.setEmp_length(Integer.parseInt(loanCase[15].toString()));
-                logger.info("getLoanCase : api called successfully.");
+                res.setMessage("Predict loan Api called successfully");
+                res.setResponseCode(200);
+                logger.info(res);
+                logger.debug("getLoanCase : Ended");
             }else return null;
         }catch(Exception e){
             e.printStackTrace();
-            logger.error("getLoanCase : error calling api");
+            res.setMessage("Error calling predict loan api");
+            res.setResponseCode(500);
+            logger.error(res);
+            logger.error("getLoanCase : Ended");
         }
         return response;
     }
 
     @Override
     public List<Integer> getAllSavedCases() {
+        logger.debug("getAllSavedCases : Started");
+        ServiceResponse res=new ServiceResponse();
         List<Integer> responses=new ArrayList<>();
         try(Session session= HibernateSessionUtil.getSession()){
             responses=session.createQuery("select caseID from LoanCases u ")
                     .getResultList();
-            logger.info("getAllSavedCases : api called successfully.");
+            res.setResponseCode(200);
+            res.setMessage("Api for fetching saved case called successfully.");
+            logger.info(res);
+            logger.debug("getAllSavedCases : Ended");
         }catch(Exception e){
             e.printStackTrace();
-            logger.error("getAllSavedCases : error calling api");
+            res.setResponseCode(500);
+            res.setMessage("Api for fetching saved case returned error");
+            logger.error(res);
+            logger.error("getAllSavedCases : ended");
         }
         return responses;
     }
